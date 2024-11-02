@@ -1,0 +1,19 @@
+.footer {
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0px -3px 6px #00000014;
+  display: flex;
+  justify-content: center;
+
+  div {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1000px;
+    width: 100%;
+  }
+}
