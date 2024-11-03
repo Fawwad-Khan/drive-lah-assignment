@@ -1,4 +1,7 @@
-import React, { useState, ReactNode } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+
+import React, { useState, ReactNode, useEffect } from "react";
 import styles from "./Tabs.module.scss";
 
 type TabPaneProps = {
@@ -8,14 +11,21 @@ type TabPaneProps = {
 
 type TabsProps = {
   children: React.ReactElement<TabPaneProps>[];
+  activeTab?: number;
 };
 
 interface TabsComponent extends React.FC<TabsProps> {
   Pane: React.FC<TabPaneProps>;
 }
 
-const Tabs: TabsComponent = ({ children }) => {
+const Tabs: TabsComponent = ({ children, activeTab: activeTabFromProps }) => {
   const [activeTab, setActiveTab] = useState(0); // Track active tab index
+
+  useEffect(() => {
+    if (activeTabFromProps) {
+      setActiveTab(activeTabFromProps);
+    }
+  }, [activeTabFromProps]);
 
   return (
     <div className={styles.tabsContainer}>
@@ -26,13 +36,30 @@ const Tabs: TabsComponent = ({ children }) => {
             onClick={() => setActiveTab(index)}
             className={`${styles.tabItem} ${
               index === activeTab ? styles.active : ""
-            }`}
+            }
+            ${index < activeTab ? styles.completed : ""}
+            `}
           >
             {child.props.title}
-            {index < activeTab && <span className={styles.tick}>✓</span>}
+            <span className={styles.tick}>
+              <FontAwesomeIcon icon={faCheckCircle} color="#026786" />
+            </span>
           </div>
         ))}
       </div>
+      <div className={styles.tabsSelectMenu}>
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(Number(e.target.value))}
+        >
+          {children.map((child, index) => (
+            <option key={index} value={index}>
+              {child.props.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className={styles.tabsContent}>{children[activeTab]}</div>
     </div>
   );

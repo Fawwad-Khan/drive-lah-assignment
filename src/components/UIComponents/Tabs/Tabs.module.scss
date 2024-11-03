@@ -3,35 +3,115 @@
   flex-direction: row;
   width: 100%;
   height: 100%;
-  gap: 10px;
+  gap: 20px;
+  background: transparent;
+
+  .tabsSelectMenu {
+    display: none;
+    position: relative;
+
+    select {
+      padding: 10px;
+      font-size: large;
+      border: 1px solid #e6e6e6;
+      margin: 20px;
+      border-radius: 5px;
+      height: 54px;
+
+      option {
+        color: #b2b2b2;
+        padding: 100px;
+      }
+      -moz-appearance: none; /* Firefox */
+      -webkit-appearance: none; /* Safari and Chrome */
+      appearance: none;
+      width: 100%;
+    }
+    select:active,
+    select:focus,
+    select:hover,
+    select:visited,
+    select:link,
+    select:active {
+      border: 1px solid #00a3ad;
+    }
+
+    &:after {
+      content: "\f078";
+      font-size: 20px;
+      color: #b2b2b2;
+      font-weight: lighter;
+      position: absolute;
+      right: 30px;
+      top: 32%;
+      font-family: "FontAwesome";
+
+      // -webkit-transform: rotate(90deg);
+      // -moz-transform: rotate(90deg);
+      // -ms-transform: rotate(90deg);
+      // transform: rotate(90deg);
+    }
+  }
 
   .tabsMenu {
     font-weight: 600;
-
+    margin-top: 30px;
     .tabItem {
       display: flex;
       flex-direction: row;
       align-items: center;
-      padding: 20px 10px 20px 10px;
       justify-content: space-between;
       cursor: pointer;
       transition: all 0.3s ease;
       width: 130px;
       color: #b2b2b2;
+      height: 47px;
+      border-left: 4px solid;
+      border-color: transparent;
+      padding-left: 20px;
 
       &.active {
         color: #00a3ad;
-        border-left: 4px solid #00a3ad;
+        border-color: #00a3ad;
+        font-weight: 700;
       }
-    }
-    .tick {
-      color: green; // Color for the tick mark
+      &.completed {
+        color: #026786;
+      }
+      .tick {
+        display: none;
+      }
+
+      &.completed .tick {
+        display: block;
+        color: #026786;
+      }
     }
   }
   .tabsContent {
     flex: 1;
+    background-color: white;
     border: 1px solid #e6e6e6;
     border-radius: 8px;
-    padding: 20px;
+    padding: 40px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .tabsContainer {
+    background: #fcfcfc;
+    gap: 0px;
+
+    flex-direction: column;
+    .tabsContent {
+      padding: 10px 20px;
+      border: none;
+    }
+    .tabsMenu {
+      display: none;
+    }
+    .tabsSelectMenu {
+      display: flex;
+    }
   }
 }
