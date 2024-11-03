@@ -1,19 +1,51 @@
 import { useState } from "react";
 import PricingPanelGroup from "../../../components/UIComponents/PricingPanelGroup";
 import styles from "./SubscriptionForm.module.scss";
+import { isAction } from "@reduxjs/toolkit";
 
 type Props = {
   extractFields: (data: unknown) => void;
 };
 
 const SubscriptionForm = ({ extractFields }: Props) => {
-  const [subscriptionPlan, setSubscriptionPlan] = useState<number>(undefined);
+  const [subscriptionPlan, setSubscriptionPlan] = useState<number | undefined>(
+    undefined
+  );
 
-  const onPanelChange = (index: number) => {
+  const onPanelChange = (index?: number) => {
     setSubscriptionPlan(index);
   };
 
-  console.log("fawwad i have subscriptionPlan", subscriptionPlan);
+  const renderAddOns = () => {
+    if (subscriptionPlan !== undefined) {
+      const addOns = [
+        [{ title: "BYO secondary GPS - $5/month", isActive: true }],
+        [
+          { title: "BYO secondary GPS - $5/month", isActive: true },
+          { title: "BYO lockbox - $10/month", isActive: true },
+        ],
+        [
+          { title: "BYO secondary GPS - $5/month", isActive: true },
+          { title: "Between trip insurance", isActive: false },
+        ],
+      ];
+
+      return (
+        <div>
+          {addOns[subscriptionPlan].map((addOn, index) => {
+            return (
+              <div key={index} className={styles.addOn}>
+                <input type="checkbox" checked={addOn.isActive} />
+                <span>{addOn.title}</span>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    return "";
+  };
 
   return (
     <>
@@ -44,6 +76,7 @@ const SubscriptionForm = ({ extractFields }: Props) => {
           />
         </PricingPanelGroup>
       </div>
+      {renderAddOns()}
       <div className="py-4">
         <h5>
           <span className="text-black">Learn more about the plans here - </span>{" "}

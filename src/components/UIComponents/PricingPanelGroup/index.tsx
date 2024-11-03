@@ -21,7 +21,7 @@ type PricingPanelGroupProps = {
     | React.ReactElement<PricingPanelProps>[]
     | React.ReactElement<PricingPanelProps>;
   activePanel?: number;
-  onPanelChange?: (index: number) => void;
+  onPanelChange?: (index?: number) => void;
 };
 
 interface PricingPanelGroupComponent extends React.FC<PricingPanelGroupProps> {
@@ -80,9 +80,15 @@ const PricingPanelGroup: PricingPanelGroupComponent = ({
   children,
   onPanelChange: onPanelChangeFromProps,
 }) => {
-  const [activeTab, setActiveTab] = useState(0); // Track active tab index
+  const [activeTab, setActiveTab] = useState<number | undefined>(undefined); // Track active tab index
 
   const onPanelChange = (index: number) => {
+    if (index === activeTab) {
+      setActiveTab(undefined);
+      if (onPanelChangeFromProps) onPanelChangeFromProps(undefined);
+
+      return;
+    }
     setActiveTab(index);
     if (onPanelChangeFromProps) onPanelChangeFromProps(index);
   };
