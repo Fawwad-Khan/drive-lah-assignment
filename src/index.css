@@ -9,6 +9,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   --bs-heading-color: #026786;
+  --bs-link-color-rgb: 0, 163, 173;
 }
 
 body {

@@ -18,11 +18,16 @@ const Home = () => {
     setActiveTab((tmpActiveTab: number) => tmpActiveTab + 1);
   };
 
+  const onTabChange = (index: number) => {
+    console.log("fawwad im changing ");
+    setActiveTab(index);
+  };
+
   const onSubmit = () => {
     console.log("Final Data", formData);
   };
 
-  const tabsList: {
+  const tabList: {
     title: string;
     component: React.FC<{ extractFields: (data: unknown) => void }>;
   }[] = [
@@ -72,12 +77,12 @@ const Home = () => {
     },
   ];
 
-  const IsLastTab = activeTab === tabsList.length - 1;
-
+  const IsLastTab = activeTab === tabList.length - 1;
+  console.log("fawwad i have ", activeTab, tabList.length);
   return (
     <div className={styles.container}>
-      <Tabs activeTab={activeTab}>
-        {tabsList.map((tab, index) => (
+      <Tabs activeTab={activeTab} onTabChange={onTabChange}>
+        {tabList.map((tab, index) => (
           <Tabs.Pane title={tab.title} key={index}>
             <Suspense fallback={<div>Loading...</div>}>
               <tab.component

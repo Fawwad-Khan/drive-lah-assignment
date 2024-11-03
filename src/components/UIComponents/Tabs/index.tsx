@@ -10,15 +10,22 @@ type TabPaneProps = {
 };
 
 type TabsProps = {
-  children: React.ReactElement<TabPaneProps>[];
+  children:
+    | React.ReactElement<TabPaneProps>[]
+    | React.ReactElement<TabPaneProps>;
   activeTab?: number;
+  onTabChange?: (index: number) => void;
 };
 
 interface TabsComponent extends React.FC<TabsProps> {
   Pane: React.FC<TabPaneProps>;
 }
 
-const Tabs: TabsComponent = ({ children, activeTab: activeTabFromProps }) => {
+const Tabs: TabsComponent = ({
+  children,
+  activeTab: activeTabFromProps,
+  onTabChange: onTabChangeFromProps,
+}) => {
   const [activeTab, setActiveTab] = useState(0); // Track active tab index
 
   useEffect(() => {
@@ -27,13 +34,24 @@ const Tabs: TabsComponent = ({ children, activeTab: activeTabFromProps }) => {
     }
   }, [activeTabFromProps]);
 
+  const onTabChange = (index: number) => {
+    setActiveTab(index);
+    console.log("fawwad i am ", onTabChangeFromProps);
+    if (onTabChangeFromProps) {
+      onTabChangeFromProps(index);
+    }
+  };
+
+  if (!Array.isArray(children)) {
+    children = [children];
+  }
   return (
     <div className={styles.tabsContainer}>
       <div className={styles.tabsMenu}>
         {children.map((child, index) => (
           <div
             key={index}
-            onClick={() => setActiveTab(index)}
+            onClick={() => onTabChange(index)}
             className={`${styles.tabItem} ${
               index === activeTab ? styles.active : ""
             }
@@ -50,7 +68,7 @@ const Tabs: TabsComponent = ({ children, activeTab: activeTabFromProps }) => {
       <div className={styles.tabsSelectMenu}>
         <select
           value={activeTab}
-          onChange={(e) => setActiveTab(Number(e.target.value))}
+          onChange={(e) => onTabChange(Number(e.target.value))}
         >
           {children.map((child, index) => (
             <option key={index} value={index}>
