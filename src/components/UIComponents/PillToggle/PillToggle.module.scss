@@ -1,0 +1,34 @@
+.pillToggle {
+  width: 50px;
+  height: 24px;
+  border-radius: 12px; /* Half of the height to make it fully rounded */
+  background-color: #ccc; /* Gray background for off state */
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.on {
+    background-color: #009e9e; /* Turquoise background for on state */
+  }
+
+  &.off {
+    background-color: #ccc; /* Gray background for off state */
+  }
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  transform: translateX(0px);
+
+  .pillToggle.on & {
+    transform: translateX(
+      26px
+    ); /* Adjust based on the container width/height */
+  }
+}

@@ -14,7 +14,7 @@ const Header = () => {
         <div>Learn More</div>
         <div>List your car</div>
         <div>Inbox</div>
-        <div className="avatar"></div>
+        <div className={styles.avatar}></div>
       </div>
     </div>
   );

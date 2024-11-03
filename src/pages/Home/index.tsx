@@ -5,10 +5,9 @@ import Tabs from "../../components/UIComponents/Tabs";
 import styles from "./styles.module.scss";
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<number>(9);
   const [formData, setFormData] = useState<{ [key: string]: unknown }>({});
   const extractFields = (tab: string, data: unknown) => {
-    console.log("fawwad i have data ", tab, data);
     setFormData((prevData) => ({
       ...prevData,
       [tab]: data,
@@ -58,6 +57,10 @@ const Home = () => {
     {
       title: "Insurance",
       component: lazy(() => import("./InsuranceForm")),
+    },
+    {
+      title: "Subscription",
+      component: lazy(() => import("./SubscriptionForm")),
     },
     {
       title: "Device",

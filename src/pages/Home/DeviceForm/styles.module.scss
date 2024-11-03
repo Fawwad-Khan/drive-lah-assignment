@@ -1,0 +1,18 @@
+.formField {
+  width: 50%;
+  margin: 0px 20px;
+}
+
+.transition {
+  display: none;
+
+  transform: scaleY(0);
+  transform-origin: top;
+
+  transition: transform 0.5s ease-in-out;
+
+  &.active {
+    display: block;
+    transform: scaleY(1);
+  }
+}

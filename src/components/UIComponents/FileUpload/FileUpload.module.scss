@@ -1,0 +1,15 @@
+.fileUploadBox {
+  background: #fcfcfc 0% 0% no-repeat padding-box;
+  border: solid 1px #e6e6e6;
+  border-radius: 5px;
+  height: 160px;
+  width: 335px;
+  display: flex;
+
+  span {
+    margin: auto;
+    color: var(--bs-heading-color);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}

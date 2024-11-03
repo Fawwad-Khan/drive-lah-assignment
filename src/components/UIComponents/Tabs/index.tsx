@@ -67,7 +67,7 @@ const Tabs: TabsComponent = ({ children, activeTab: activeTabFromProps }) => {
 
 // Define the Pane subcomponent
 Tabs.Pane = ({ children }) => {
-  return <div className="tab-pane">{children}</div>;
+  return <div className="tab-pane mx-4">{children}</div>;
 };
 
 export default Tabs;
