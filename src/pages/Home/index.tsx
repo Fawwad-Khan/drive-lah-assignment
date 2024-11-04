@@ -5,7 +5,7 @@ import Tabs from "../../components/UIComponents/Tabs";
 import styles from "./styles.module.scss";
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState<number>(9);
+  const [activeTab, setActiveTab] = useState<number>(8);
   const [formData, setFormData] = useState<{ [key: string]: unknown }>({});
   const extractFields = (tab: string, data: unknown) => {
     setFormData((prevData) => ({

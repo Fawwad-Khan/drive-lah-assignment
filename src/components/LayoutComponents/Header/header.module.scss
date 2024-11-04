@@ -1,3 +1,7 @@
+:root {
+  --menuCaretWidth: 60px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -9,6 +13,10 @@
   div {
     margin-top: auto;
     margin-bottom: auto;
+  }
+
+  .avatarInMenu {
+    display: block;
   }
 
   .logo {
@@ -23,10 +31,24 @@
     div {
       cursor: pointer;
     }
+    .avatarInMenu {
+      display: block;
+      font-size: 30px;
+    }
   }
 
-  .caret {
+  .caret,
+  .avatarOut {
+    display: none;
+
     cursor: pointer;
+    width: var(--menuCaretWidth);
+    font-size: 30px;
+
+    svg {
+      width: 30px;
+      margin: auto;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -45,7 +67,7 @@
       gap: 0;
       z-index: 1;
 
-      .avatar {
+      .avatarInMenu {
         display: none;
       }
 
@@ -61,9 +83,17 @@
         border-bottom: none;
       }
     }
+
+    .avatarOut,
     .caret {
-      display: block;
-      margin-right: 20px;
+      display: flex;
+    }
+
+    .logo {
+      margin-left: 0;
+      flex: 1;
+      display: flex;
+      justify-content: center;
     }
   }
 
