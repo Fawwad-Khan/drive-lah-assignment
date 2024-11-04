@@ -1,16 +1,8 @@
-import { useEffect } from "react";
-
 type Props = {
-  extractFields: (data: unknown) => void;
+  bindData: (data: () => unknown) => void;
 };
 
-const LocationForm = ({ extractFields }: Props) => {
-  useEffect(() => {
-    return () => {
-      extractFields({});
-    };
-  }, []);
-
+const LocationForm: React.FC<Props> = () => {
   return <div>LocationForm</div>;
 };
 

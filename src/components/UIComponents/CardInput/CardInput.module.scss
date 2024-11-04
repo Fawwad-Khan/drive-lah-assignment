@@ -1,0 +1,61 @@
+.cardContainer {
+  max-width: 400px;
+}
+
+.cardInput {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc !important;
+
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.icon {
+  font-size: 18px;
+  margin-right: 8px;
+  color: #aaa;
+}
+
+.cardNumberInput,
+.expiryInput,
+.cvcInput {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 14px;
+  color: #333;
+}
+
+.expiryInput {
+  width: 40px;
+}
+
+.cvcInput {
+  width: 40px;
+}
+
+.cardNumberInput {
+  flex: 2;
+  padding-right: 10px;
+}
+
+.expiryInput,
+.cvcInput {
+  flex: 1;
+  text-align: center;
+}
+
+.expiryInput {
+  padding-right: 10px;
+}
+
+.cvcInput {
+  padding-right: 0;
+}
+
+.description {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+}

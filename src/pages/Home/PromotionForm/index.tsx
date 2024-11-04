@@ -1,16 +1,8 @@
-import { useEffect } from "react";
-
 type Props = {
-  extractFields: (data: unknown) => void;
+  bindData: (data: () => unknown) => void;
 };
 
-const PromotionForm = ({ extractFields }: Props) => {
-  useEffect(() => {
-    return () => {
-      extractFields({});
-    };
-  }, []);
-
+const PromotionForm: React.FC<Props> = () => {
   return <div>PromotionForm</div>;
 };
 

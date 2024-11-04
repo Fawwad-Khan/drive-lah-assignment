@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import PillToggle from "../../../components/UIComponents/PillToggle";
 
@@ -7,32 +7,75 @@ import Button from "../../../components/UIComponents/Button";
 import FileUpload from "../../../components/UIComponents/FileUpload";
 
 type Props = {
-  extractFields: (data: unknown) => void;
+  bindData: (data: () => unknown) => void;
 };
 
-const DeviceForm = ({ extractFields }: Props) => {
-  const [devices, setDevices] = useState([
+const DeviceForm: React.FC<Props> = ({ bindData }) => {
+  const [devices, setDevices] = useState<
     {
-      isToggled: false,
+      bringingOwnDevice: boolean;
+      type?: string;
+      serial?: string;
+      image?: File;
+    }[]
+  >([
+    {
+      bringingOwnDevice: false,
+      type: undefined,
+      serial: undefined,
+      image: undefined,
     },
   ]);
 
+  useEffect(() => {
+    bindData(() => ({ devices }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [devices]);
+
   const onAddDevice = () => {
-    setDevices((prev) => [...prev, { isToggled: false }]);
+    setDevices((prev) => [
+      ...prev,
+      {
+        bringingOwnDevice: false,
+        serial: undefined,
+        image: undefined,
+        type: undefined,
+      },
+    ]);
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     extractFields({});
-  //   };
-  // }, []);
   const handleToggleChange = (index: number, isOn: boolean) => {
     setDevices((prev) => {
       const newDevices = [...prev];
-      newDevices[index] = { ...newDevices[index], isToggled: isOn };
+      newDevices[index] = { ...newDevices[index], bringingOwnDevice: isOn };
       return newDevices;
     });
   };
+
+  const handleFileChange = (index: number, file: File) => {
+    setDevices((prev) => {
+      const newDevices = [...prev];
+      newDevices[index] = { ...newDevices[index], image: file };
+      return newDevices;
+    });
+  };
+
+  const handleSerialChange = (index: number, serial: string) => {
+    setDevices((prev) => {
+      const newDevices = [...prev];
+      newDevices[index] = { ...newDevices[index], serial };
+      return newDevices;
+    });
+  };
+
+  const handleTypeChange = (index: number, type: string) => {
+    setDevices((prev) => {
+      const newDevices = [...prev];
+      newDevices[index] = { ...newDevices[index], type };
+      return newDevices;
+    });
+  };
+
   return (
     <>
       <div className="py-4 pb-2">
@@ -49,7 +92,12 @@ const DeviceForm = ({ extractFields }: Props) => {
             <div className="col-md-6 pb-2">
               <label className="pb-2 text-black">Device Type</label>
 
-              <input type="text" name="deviceType" />
+              <input
+                type="text"
+                className="inputText"
+                name="deviceType"
+                onChange={(e) => handleTypeChange(index, e.target.value)}
+              />
             </div>
 
             <div className="col-md-6 pb-3 ">
@@ -73,7 +121,7 @@ const DeviceForm = ({ extractFields }: Props) => {
 
             <div
               className={`${styles.transition} col-12 ${
-                device.isToggled ? styles.active : ""
+                device.bringingOwnDevice ? styles.active : ""
               }`}
             >
               <div className="row">
@@ -82,17 +130,19 @@ const DeviceForm = ({ extractFields }: Props) => {
 
                   <input
                     type="text"
+                    className="inputText"
                     name="deviceType"
                     placeholder="Enter the serial number of the device"
+                    onChange={(e) => handleSerialChange(index, e.target.value)}
                   />
                 </div>
                 <div className="col-md-6">
-                  <label className="pb-2 text-black">Device Type</label>
+                  <label className="pb-2 text-black">
+                    Upload an Image of the device
+                  </label>
 
                   <FileUpload
-                    onChooseFile={(file) => {
-                      console.log(file);
-                    }}
+                    onChooseFile={(file) => handleFileChange(index, file)}
                   />
                 </div>
               </div>

@@ -1,16 +1,8 @@
-import { useEffect } from "react";
-
 type Props = {
-  extractFields: (data: unknown) => void;
+  bindData: (data: () => unknown) => void;
 };
 
-const InsuranceForm = ({ extractFields }: Props) => {
-  useEffect(() => {
-    return () => {
-      extractFields({});
-    };
-  }, []);
-
+const InsuranceForm: React.FC<Props> = () => {
   return <div>InsuranceForm</div>;
 };
 

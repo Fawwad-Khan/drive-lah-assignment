@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./AddonPanelGroup.module.scss";
 
@@ -12,8 +12,8 @@ type AddonPanelGroupProps = {
   children:
     | React.ReactElement<AddonPanelProps>[]
     | React.ReactElement<AddonPanelProps>;
-  activePanel?: number;
-  onPanelChange?: (index?: number) => void;
+  activePanels?: number[];
+  onPanelChange?: (panels: number[]) => void;
 };
 
 interface AddonPanelGroupComponent extends React.FC<AddonPanelGroupProps> {
@@ -39,18 +39,34 @@ const Panel = ({ title, isActive, onClick }: AddonPanelProps) => {
 const AddonPanelGroup: AddonPanelGroupComponent = ({
   children,
   onPanelChange: onPanelChangeFromProps,
+  activePanels: activePanelsFromProps,
 }) => {
-  const [activeTab, setActiveTab] = useState<number | undefined>(undefined); // Track active tab index
+  const [activePanels, setActivePanels] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (activePanelsFromProps) setActivePanels(activePanelsFromProps);
+  }, [activePanelsFromProps]);
 
   const onPanelChange = (index: number) => {
-    if (index === activeTab) {
-      setActiveTab(undefined);
-      if (onPanelChangeFromProps) onPanelChangeFromProps(undefined);
+    if (activePanels.includes(index)) {
+      setActivePanels((tmpActivePanels) => {
+        const newActivePanels = tmpActivePanels.filter(
+          (panel) => panel !== index
+        );
+
+        if (onPanelChangeFromProps) onPanelChangeFromProps(newActivePanels);
+        return newActivePanels;
+      });
 
       return;
     }
-    setActiveTab(index);
-    if (onPanelChangeFromProps) onPanelChangeFromProps(index);
+
+    setActivePanels((tmpActivePanels) => {
+      const newActivePanels = [...tmpActivePanels, index];
+
+      if (onPanelChangeFromProps) onPanelChangeFromProps(newActivePanels);
+      return newActivePanels;
+    });
   };
 
   if (!Array.isArray(children)) {
@@ -59,14 +75,17 @@ const AddonPanelGroup: AddonPanelGroupComponent = ({
 
   return (
     <div className={styles.panelsContainer}>
-      {children.map(({ props }, index) => (
-        <Panel
-          {...props}
-          onClick={() => onPanelChange(index)}
-          isActive={activeTab === index}
-          key={`${index}-${props.title}`}
-        />
-      ))}
+      {children.map(({ props }, index) => {
+        const isPanelActive = activePanels.includes(index);
+        return (
+          <Panel
+            {...props}
+            onClick={() => onPanelChange(index)}
+            isActive={isPanelActive}
+            key={`${index}-${props.title}`}
+          />
+        );
+      })}
     </div>
   );
 };

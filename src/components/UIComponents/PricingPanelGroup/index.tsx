@@ -11,7 +11,7 @@ type PricingPanelProps = {
   gps: string;
   mileage: string;
   keyAccess: string;
-  price?: string;
+  price?: number;
   isActive?: boolean;
   onClick?: () => void;
 };

@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import PricingPanelGroup from "../../../components/UIComponents/PricingPanelGroup";
 import styles from "./SubscriptionForm.module.scss";
 import AddonPanelGroup from "../../../components/UIComponents/AddonPanelGroup";
+import CardInput from "../../../components/UIComponents/CardInput";
+
+import {
+  subscriptionAddons,
+  subscriptionPricePanels,
+} from "../../../constants";
 
 type Props = {
-  extractFields: (data: unknown) => void;
+  bindData: (data: () => unknown) => void;
 };
 
-const SubscriptionForm = ({ extractFields }: Props) => {
+const SubscriptionForm: React.FC<Props> = ({ bindData }) => {
   const [subscriptionPlan, setSubscriptionPlan] = useState<number | undefined>(
     undefined
   );
+  const [activeAddOns, setActiveAddOns] = useState<number[]>([]);
+
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+  });
+
+  useEffect(() => {
+    bindData(() => ({ subscriptionPlan, activeAddOns, cardDetails }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subscriptionPlan, activeAddOns, cardDetails]);
 
   const onPanelChange = (index?: number) => {
     setSubscriptionPlan(index);
@@ -18,24 +37,17 @@ const SubscriptionForm = ({ extractFields }: Props) => {
 
   const renderAddOns = () => {
     if (subscriptionPlan !== undefined) {
-      const addOns = [
-        [{ title: "BYO secondary GPS - $5/month", isActive: true }],
-        [
-          { title: "BYO secondary GPS - $5/month", isActive: true },
-          { title: "BYO lockbox - $10/month", isActive: true },
-        ],
-        [
-          { title: "BYO secondary GPS - $5/month", isActive: true },
-          { title: "Between trip insurance", isActive: false },
-        ],
-      ];
-
       return (
-        <div className="py-4">
+        <div className="py-3">
           <h5 className="subHeading">Select add-ons for your subscription</h5>
 
-          <AddonPanelGroup>
-            {addOns[subscriptionPlan].map((addOn, index) => {
+          <AddonPanelGroup
+            onPanelChange={(indexes) => {
+              setActiveAddOns(indexes);
+            }}
+            activePanels={activeAddOns}
+          >
+            {subscriptionAddons[subscriptionPlan].map((addOn, index) => {
               return (
                 <AddonPanelGroup.Panel
                   key={index}
@@ -52,44 +64,60 @@ const SubscriptionForm = ({ extractFields }: Props) => {
     return "";
   };
 
+  const renderCardDetails = () => {
+    if (subscriptionPlan) {
+      return (
+        <div className="py-3">
+          <h5 className="subHeading">Enter your card details</h5>
+          <CardInput
+            onChange={(data) => {
+              setCardDetails(data);
+            }}
+          />
+          <p className={styles.chargedText}>
+            You will not be charged right now. Subscription will only start once
+            your listing is published and live
+          </p>
+        </div>
+      );
+    }
+
+    return "";
+  };
+
   return (
     <>
       <div className="py-4 pb-2">
         <h2>Subscription plan</h2>
         <p>Select the ideal subscription plan for your listing</p>
       </div>
-      <div className="py-4">
-        <h5 className={styles.subHeading}>Select your plan</h5>
+      <div className="py-3">
+        <h5 className="subHeading">Select your plan</h5>
         <PricingPanelGroup onPanelChange={onPanelChange}>
-          <PricingPanelGroup.Panel
-            title="Just mates"
-            gps="Bring your own GPS"
-            mileage="Mileage reporting to be done by you"
-            keyAccess="In-person key handover to guests"
-          />
-          <PricingPanelGroup.Panel
-            title="Good Mates"
-            gps="Primary GPS included"
-            mileage="Automated mileage calculations"
-            keyAccess="In-person key handover to guests"
-          />
-          <PricingPanelGroup.Panel
-            title="Best Mates"
-            gps="Keyless access technology"
-            mileage="Automated mileage calculations"
-            keyAccess="In-person key handover to guests"
-          />
+          {subscriptionPricePanels.map((panel, index) => {
+            return (
+              <PricingPanelGroup.Panel
+                title={panel.title}
+                gps={panel.gps}
+                mileage={panel.mileage}
+                keyAccess={panel.keyAccess}
+                price={panel.price}
+                key={index}
+              />
+            );
+          })}
         </PricingPanelGroup>
       </div>
       {renderAddOns()}
-      <div className="py-4">
-        <h5>
+      {renderCardDetails()}
+      <div className="py-3">
+        <h5 className="pb-2 fw-normal">
           <span className="text-black">Learn more about the plans here - </span>{" "}
           <a href="#">
             <u>What is the right plan for me?</u>
           </a>
         </h5>
-        <h5 className="text-black">
+        <h5 className="text-black fw-normal">
           You will be able to switch between plans easily later as well. Speak
           to our host success team if you need any clarifications.
         </h5>

@@ -7,14 +7,14 @@ import styles from "./styles.module.scss";
 const Home = () => {
   const [activeTab, setActiveTab] = useState<number>(8);
   const [formData, setFormData] = useState<{ [key: string]: unknown }>({});
-  const extractFields = (tab: string, data: unknown) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [tab]: data,
-    }));
-  };
+  let extractFields: () => unknown;
 
   const onNext = () => {
+    const data = extractFields();
+
+    const key = tabList[activeTab].title;
+    setFormData((prevData) => ({ ...prevData, [key]: data }));
+
     setActiveTab((tmpActiveTab: number) => tmpActiveTab + 1);
   };
 
@@ -29,7 +29,7 @@ const Home = () => {
 
   const tabList: {
     title: string;
-    component: React.FC<{ extractFields: (data: unknown) => void }>;
+    component: React.FC<{ bindData: (data: () => unknown) => void }>;
   }[] = [
     {
       title: "Location",
@@ -77,19 +77,19 @@ const Home = () => {
     },
   ];
 
+  const bindData = (data: () => unknown) => {
+    extractFields = data;
+  };
+
   const IsLastTab = activeTab === tabList.length - 1;
-  console.log("fawwad i have ", activeTab, tabList.length);
+
   return (
     <div className={styles.container}>
       <Tabs activeTab={activeTab} onTabChange={onTabChange}>
         {tabList.map((tab, index) => (
           <Tabs.Pane title={tab.title} key={index}>
             <Suspense fallback={<div>Loading...</div>}>
-              <tab.component
-                extractFields={(data: unknown) =>
-                  extractFields(tab.title, data)
-                }
-              />
+              <tab.component bindData={bindData} />
             </Suspense>
           </Tabs.Pane>
         ))}

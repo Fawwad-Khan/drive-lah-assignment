@@ -7,7 +7,7 @@ type Props = {
   [key: string]: unknown;
 };
 
-const Button = (props: Props) => {
+const Button: React.FC<Props> = (props) => {
   const { children } = props;
   return (
     <button className={`${style.button} ${props.className || ""}`} {...props}>

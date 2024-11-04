@@ -4,7 +4,7 @@ type Props = {
   onChooseFile: (file: File) => void;
 };
 
-const FileUpload = ({ onChooseFile }: Props) => {
+const FileUpload: React.FC<Props> = ({ onChooseFile }) => {
   return (
     <div className="pb-4">
       <label role="label" className={styles.fileUploadBox} htmlFor="file">
