@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PricingPanelGroup from "../../../components/UIComponents/PricingPanelGroup";
 import styles from "./SubscriptionForm.module.scss";
-import { isAction } from "@reduxjs/toolkit";
+import AddonPanelGroup from "../../../components/UIComponents/AddonPanelGroup";
 
 type Props = {
   extractFields: (data: unknown) => void;
@@ -31,15 +31,20 @@ const SubscriptionForm = ({ extractFields }: Props) => {
       ];
 
       return (
-        <div>
-          {addOns[subscriptionPlan].map((addOn, index) => {
-            return (
-              <div key={index} className={styles.addOn}>
-                <input type="checkbox" checked={addOn.isActive} />
-                <span>{addOn.title}</span>
-              </div>
-            );
-          })}
+        <div className="py-4">
+          <h5 className="subHeading">Select add-ons for your subscription</h5>
+
+          <AddonPanelGroup>
+            {addOns[subscriptionPlan].map((addOn, index) => {
+              return (
+                <AddonPanelGroup.Panel
+                  key={index}
+                  title={addOn.title}
+                  isActive={addOn.isActive}
+                />
+              );
+            })}
+          </AddonPanelGroup>
         </div>
       );
     }
