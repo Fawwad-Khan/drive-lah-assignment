@@ -1,16 +1,18 @@
 import { lazy, useState } from "react";
+import { useAppSelector } from "../../redux";
 
 export const useHome = () => {
+  const { deviceForm, subscriptionForm } = useAppSelector((state) => {
+    const { deviceForm, subscriptionForm } = state;
+    return {
+      deviceForm,
+      subscriptionForm,
+    };
+  });
+
   const [activeTab, setActiveTab] = useState<number>(8);
-  const [formData, setFormData] = useState<{ [key: string]: unknown }>({});
-  let extractFields: () => unknown;
 
   const onNext = () => {
-    const data = extractFields();
-
-    const key = tabList[activeTab].title;
-    setFormData((prevData) => ({ ...prevData, [key]: data }));
-
     setActiveTab((tmpActiveTab: number) => tmpActiveTab + 1);
   };
 
@@ -19,12 +21,12 @@ export const useHome = () => {
   };
 
   const onSubmit = () => {
-    console.log("Final Data", formData);
+    console.log("Final Data", deviceForm, subscriptionForm);
   };
 
   const tabList: {
     title: string;
-    component: React.FC<{ bindData: (data: () => unknown) => void }>;
+    component: React.FC;
   }[] = [
     {
       title: "Location",
@@ -72,10 +74,6 @@ export const useHome = () => {
     },
   ];
 
-  const bindData = (data: () => unknown) => {
-    extractFields = data;
-  };
-
   const IsLastTab = activeTab === tabList.length - 1;
 
   return {
@@ -84,7 +82,6 @@ export const useHome = () => {
     onTabChange,
     onSubmit,
     tabList,
-    bindData,
     IsLastTab,
   };
 };

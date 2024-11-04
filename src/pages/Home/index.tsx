@@ -6,15 +6,8 @@ import styles from "./styles.module.scss";
 import { useHome } from "./useHome";
 
 const Home = () => {
-  const {
-    activeTab,
-    tabList,
-    onTabChange,
-    onSubmit,
-    onNext,
-    bindData,
-    IsLastTab,
-  } = useHome();
+  const { activeTab, tabList, onTabChange, onSubmit, onNext, IsLastTab } =
+    useHome();
 
   return (
     <div className={styles.container}>
@@ -22,14 +15,17 @@ const Home = () => {
         {tabList.map((tab, index) => (
           <Tabs.Pane title={tab.title} key={index}>
             <Suspense fallback={<div>Loading...</div>}>
-              <tab.component bindData={bindData} />
+              <tab.component />
             </Suspense>
           </Tabs.Pane>
         ))}
       </Tabs>
       <div className={styles.footer}>
         <div>
-          <Button onClick={IsLastTab ? onSubmit : onNext}>
+          <Button
+            onClick={IsLastTab ? onSubmit : onNext}
+            data-test-id="button-next"
+          >
             {IsLastTab ? "Submit" : "Next"}
           </Button>
         </div>

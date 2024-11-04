@@ -1,8 +1,4 @@
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
-
-const RulesForm: React.FC<Props> = () => {
+const RulesForm: React.FC = () => {
   return <div>RulesForm</div>;
 };
 

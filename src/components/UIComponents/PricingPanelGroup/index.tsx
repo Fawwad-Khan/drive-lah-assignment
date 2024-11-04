@@ -12,6 +12,7 @@ type PricingPanelProps = {
   mileage: string;
   keyAccess: string;
   price?: number;
+  index?: number;
   isActive?: boolean;
   onClick?: () => void;
 };
@@ -33,6 +34,7 @@ const Panel = ({
   gps,
   mileage,
   keyAccess,
+  index,
 
   price,
   isActive,
@@ -55,6 +57,7 @@ const Panel = ({
     <div
       onClick={onClick}
       className={`${styles.panel} ${isActive ? styles.active : ""}`}
+      data-test-id={`pricing-panel-${index}`}
     >
       <h5>{title}</h5>
       <div className="py-2">
@@ -109,6 +112,7 @@ const PricingPanelGroup: PricingPanelGroupComponent = ({
       {children.map(({ props }, index) => (
         <Panel
           {...props}
+          index={index}
           onClick={() => onPanelChange(index)}
           isActive={activeTab === index}
           key={`${index}-${props.title}`}

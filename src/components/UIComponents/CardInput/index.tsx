@@ -64,6 +64,7 @@ const CardInput: React.FC<Props> = ({
         <input
           type="text"
           placeholder="1234 5678 1234 5678"
+          data-test-id="card-number-input"
           className={styles.cardNumberInput}
           onChange={handleCardNumberChange}
           value={cardDetails.cardNumber}
@@ -71,6 +72,7 @@ const CardInput: React.FC<Props> = ({
         <input
           type="text"
           placeholder="MM/YY"
+          data-test-id="expiry-date-input"
           className={styles.expiryInput}
           onChange={handleExpiryDateChange}
           value={cardDetails.expiryDate}
@@ -78,6 +80,7 @@ const CardInput: React.FC<Props> = ({
         <input
           type="text"
           placeholder="CVC"
+          data-test-id="cvc-input"
           className={styles.cvcInput}
           onChange={handleCvvChange}
           value={cardDetails.cvv}

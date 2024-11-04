@@ -5,11 +5,7 @@ import Button from "../../../components/UIComponents/Button";
 import FileUpload from "../../../components/UIComponents/FileUpload";
 import { useDeviceForm } from "./useDeviceForm";
 
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
-
-const DeviceForm: React.FC<Props> = () => {
+const DeviceForm: React.FC = () => {
   const {
     devices,
     handleToggleChange,
@@ -39,6 +35,7 @@ const DeviceForm: React.FC<Props> = () => {
                 type="text"
                 className="inputText"
                 name="deviceType"
+                data-test-id={`device-type-input-${index}`}
                 onChange={(e) => handleTypeChange(index, e.target.value)}
                 value={device.type}
               />
@@ -55,6 +52,7 @@ const DeviceForm: React.FC<Props> = () => {
                   <PillToggle
                     onToggle={(isOn) => handleToggleChange(index, isOn)}
                     isOn={device.bringingOwnDevice}
+                    data-test-id={`device-toggle-${index}`}
                   />
                 </div>
                 <div className="col-12">
@@ -76,7 +74,8 @@ const DeviceForm: React.FC<Props> = () => {
                   <input
                     type="text"
                     className="inputText"
-                    name="deviceType"
+                    name="deviceSerial"
+                    data-test-id={`device-serial-input-${index}`}
                     placeholder="Enter the serial number of the device"
                     value={device.serial}
                     onChange={(e) => handleSerialChange(index, e.target.value)}
@@ -90,6 +89,7 @@ const DeviceForm: React.FC<Props> = () => {
                   <FileUpload
                     onChooseFile={(file) => handleFileChange(index, file)}
                     value={device.image}
+                    data-test-id={`device-image-upload-${index}`}
                   />
                 </div>
               </div>

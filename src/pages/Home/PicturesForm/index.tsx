@@ -1,8 +1,4 @@
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
-
-const PicturesForm: React.FC<Props> = () => {
+const PicturesForm: React.FC = () => {
   return <div>PicturesForm</div>;
 };
 

@@ -1,8 +1,4 @@
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
-
-const PricingForm: React.FC<Props> = () => {
+const PricingForm: React.FC = () => {
   return <div>PricingForm</div>;
 };
 

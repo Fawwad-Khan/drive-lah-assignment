@@ -7,9 +7,14 @@ type Props = {
     size: number;
     type: string;
   };
+  ["data-test-id"]?: string;
 };
 
-const FileUpload: React.FC<Props> = ({ onChooseFile, value }) => {
+const FileUpload: React.FC<Props> = ({
+  onChooseFile,
+  value,
+  ["data-test-id"]: dataTestId,
+}) => {
   return (
     <div className="pb-4">
       <label role="label" className={styles.fileUploadBox} htmlFor="file">
@@ -19,6 +24,7 @@ const FileUpload: React.FC<Props> = ({ onChooseFile, value }) => {
         className="d-none"
         type="file"
         id="file"
+        data-test-id={dataTestId}
         onChange={(e) => {
           if (!e.target.files || e.target.files.length === 0) {
             return;

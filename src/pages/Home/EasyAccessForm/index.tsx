@@ -1,8 +1,4 @@
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
-
-const EasyAccessForm: React.FC<Props> = () => {
+const EasyAccessForm: React.FC = () => {
   return <div>EasyAccessForm</div>;
 };
 

@@ -9,11 +9,7 @@ import {
 } from "../../../constants";
 import { useSubscriptionForm } from "./useSubscriptionForm";
 
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
-
-const SubscriptionForm: React.FC<Props> = () => {
+const SubscriptionForm: React.FC = () => {
   const {
     subscriptionPlan,
     activeAddOns,

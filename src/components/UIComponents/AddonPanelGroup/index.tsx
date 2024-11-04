@@ -4,6 +4,7 @@ import styles from "./AddonPanelGroup.module.scss";
 
 type AddonPanelProps = {
   title: string;
+  index?: number;
   isActive?: boolean;
   onClick?: () => void;
 };
@@ -20,11 +21,12 @@ interface AddonPanelGroupComponent extends React.FC<AddonPanelGroupProps> {
   Panel: React.FC<AddonPanelProps>;
 }
 
-const Panel = ({ title, isActive, onClick }: AddonPanelProps) => {
+const Panel = ({ title, isActive, onClick, index }: AddonPanelProps) => {
   return (
     <div
       onClick={onClick}
       className={`${styles.panel} ${isActive ? styles.active : ""}`}
+      data-test-id={`addon-panel-${index}`}
     >
       <h5>
         {title}
@@ -80,6 +82,7 @@ const AddonPanelGroup: AddonPanelGroupComponent = ({
         return (
           <Panel
             {...props}
+            index={index}
             onClick={() => onPanelChange(index)}
             isActive={isPanelActive}
             key={`${index}-${props.title}`}
