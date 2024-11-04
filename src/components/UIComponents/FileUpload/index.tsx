@@ -2,13 +2,18 @@ import styles from "./FileUpload.module.scss";
 
 type Props = {
   onChooseFile: (file: File) => void;
+  value?: {
+    name: string;
+    size: number;
+    type: string;
+  };
 };
 
-const FileUpload: React.FC<Props> = ({ onChooseFile }) => {
+const FileUpload: React.FC<Props> = ({ onChooseFile, value }) => {
   return (
     <div className="pb-4">
       <label role="label" className={styles.fileUploadBox} htmlFor="file">
-        <span>Click to upload</span>
+        {value ? <span>{value.name}</span> : <span>Click to upload</span>}
       </label>
       <input
         className="d-none"

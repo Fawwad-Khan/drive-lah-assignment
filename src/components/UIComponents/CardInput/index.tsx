@@ -9,14 +9,28 @@ type Props = {
     expiryDate: string;
     cvv: string;
   }) => void;
+  cardDetails?: {
+    cardNumber: string;
+    expiryDate: string;
+    cvv: string;
+  };
 };
 
-const CardInput: React.FC<Props> = ({ onChange }) => {
+const CardInput: React.FC<Props> = ({
+  onChange,
+  cardDetails: cardDetailsFromProps,
+}) => {
   const [cardDetails, setCardDetails] = useState({
     cardNumber: "",
     expiryDate: "",
     cvv: "",
   });
+
+  useEffect(() => {
+    if (cardDetailsFromProps) {
+      setCardDetails(cardDetailsFromProps);
+    }
+  }, []);
 
   useEffect(() => {
     onChange(cardDetails);
@@ -52,18 +66,21 @@ const CardInput: React.FC<Props> = ({ onChange }) => {
           placeholder="1234 5678 1234 5678"
           className={styles.cardNumberInput}
           onChange={handleCardNumberChange}
+          value={cardDetails.cardNumber}
         />
         <input
           type="text"
           placeholder="MM/YY"
           className={styles.expiryInput}
           onChange={handleExpiryDateChange}
+          value={cardDetails.expiryDate}
         />
         <input
           type="text"
           placeholder="CVC"
           className={styles.cvcInput}
           onChange={handleCvvChange}
+          value={cardDetails.cvv}
         />
       </div>{" "}
     </div>

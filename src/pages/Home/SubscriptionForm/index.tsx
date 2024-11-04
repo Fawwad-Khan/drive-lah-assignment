@@ -13,14 +13,16 @@ type Props = {
   bindData: (data: () => unknown) => void;
 };
 
-const SubscriptionForm: React.FC<Props> = ({ bindData }) => {
+const SubscriptionForm: React.FC<Props> = () => {
   const {
     subscriptionPlan,
     activeAddOns,
-    onPanelChange,
-    setActiveAddOns,
-    setCardDetails,
-  } = useSubscriptionForm({ bindData });
+    cardDetails,
+
+    onAddonsPanelChange,
+    onCardDetailsChange,
+    onSubscriptionPanelChange,
+  } = useSubscriptionForm();
 
   const renderAddOns = () => {
     if (subscriptionPlan !== undefined) {
@@ -30,7 +32,7 @@ const SubscriptionForm: React.FC<Props> = ({ bindData }) => {
 
           <AddonPanelGroup
             onPanelChange={(indexes) => {
-              setActiveAddOns(indexes);
+              onAddonsPanelChange(indexes);
             }}
             activePanels={activeAddOns}
           >
@@ -58,8 +60,9 @@ const SubscriptionForm: React.FC<Props> = ({ bindData }) => {
           <h5 className="subHeading">Enter your card details</h5>
           <CardInput
             onChange={(data) => {
-              setCardDetails(data);
+              onCardDetailsChange(data);
             }}
+            cardDetails={cardDetails}
           />
           <p className={styles.chargedText}>
             You will not be charged right now. Subscription will only start once
@@ -80,7 +83,10 @@ const SubscriptionForm: React.FC<Props> = ({ bindData }) => {
       </div>
       <div className="py-3">
         <h5 className="subHeading">Select your plan</h5>
-        <PricingPanelGroup onPanelChange={onPanelChange}>
+        <PricingPanelGroup
+          activePanel={subscriptionPlan}
+          onPanelChange={onSubscriptionPanelChange}
+        >
           {subscriptionPricePanels.map((panel, index) => {
             return (
               <PricingPanelGroup.Panel

@@ -1,34 +1,31 @@
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux";
+import { setSubscriptionFormState } from "../../../redux/SubscriptionForm/subsctiptionForm.slice";
 
-type Props = {
-  bindData: (data: () => unknown) => void;
-};
+export const useSubscriptionForm = () => {
+  const dispatch = useAppDispatch();
 
-export const useSubscriptionForm = ({ bindData }: Props) => {
-  const [subscriptionPlan, setSubscriptionPlan] = useState<number | undefined>(
-    undefined
-  );
-  const [activeAddOns, setActiveAddOns] = useState<number[]>([]);
+  const {
+    plan: subscriptionPlan,
+    addOns: activeAddOns,
+    cardDetails,
+  } = useAppSelector((state) => state.subscriptionForm);
 
-  const [cardDetails, setCardDetails] = useState({
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-  });
+  const onSubscriptionPanelChange = (index?: number) => {
+    dispatch(setSubscriptionFormState({ plan: index }));
+  };
 
-  useEffect(() => {
-    bindData(() => ({ subscriptionPlan, activeAddOns, cardDetails }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subscriptionPlan, activeAddOns, cardDetails]);
+  const onAddonsPanelChange = (indexes: number[]) => {
+    dispatch(setSubscriptionFormState({ addOns: indexes }));
+  };
 
-  const onPanelChange = (index?: number) => {
-    setSubscriptionPlan(index);
+  const onCardDetailsChange = (data: typeof cardDetails) => {
+    dispatch(setSubscriptionFormState({ cardDetails: data }));
   };
 
   return {
-    onPanelChange,
-    setActiveAddOns,
-    setCardDetails,
+    onSubscriptionPanelChange,
+    onAddonsPanelChange,
+    onCardDetailsChange,
 
     // Data
     subscriptionPlan,

@@ -9,7 +9,7 @@ type Props = {
   bindData: (data: () => unknown) => void;
 };
 
-const DeviceForm: React.FC<Props> = ({ bindData }) => {
+const DeviceForm: React.FC<Props> = () => {
   const {
     devices,
     handleToggleChange,
@@ -17,7 +17,7 @@ const DeviceForm: React.FC<Props> = ({ bindData }) => {
     handleSerialChange,
     onAddDevice,
     handleTypeChange,
-  } = useDeviceForm({ bindData });
+  } = useDeviceForm();
 
   return (
     <>
@@ -40,6 +40,7 @@ const DeviceForm: React.FC<Props> = ({ bindData }) => {
                 className="inputText"
                 name="deviceType"
                 onChange={(e) => handleTypeChange(index, e.target.value)}
+                value={device.type}
               />
             </div>
 
@@ -53,6 +54,7 @@ const DeviceForm: React.FC<Props> = ({ bindData }) => {
                 <div className="col-lg-2">
                   <PillToggle
                     onToggle={(isOn) => handleToggleChange(index, isOn)}
+                    isOn={device.bringingOwnDevice}
                   />
                 </div>
                 <div className="col-12">
@@ -76,6 +78,7 @@ const DeviceForm: React.FC<Props> = ({ bindData }) => {
                     className="inputText"
                     name="deviceType"
                     placeholder="Enter the serial number of the device"
+                    value={device.serial}
                     onChange={(e) => handleSerialChange(index, e.target.value)}
                   />
                 </div>
@@ -86,6 +89,7 @@ const DeviceForm: React.FC<Props> = ({ bindData }) => {
 
                   <FileUpload
                     onChooseFile={(file) => handleFileChange(index, file)}
+                    value={device.image}
                   />
                 </div>
               </div>

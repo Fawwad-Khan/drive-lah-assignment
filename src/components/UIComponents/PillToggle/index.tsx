@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./PillToggle.module.scss";
 
 type PillToggleProps = {
   onToggle?: (isOn: boolean) => void;
+  isOn?: boolean;
 };
 
-const PillToggle: React.FC<PillToggleProps> = ({ onToggle }) => {
+const PillToggle: React.FC<PillToggleProps> = ({
+  onToggle,
+  isOn: isOnFromProps,
+}) => {
   const [isOn, setIsOn] = useState(false);
+
+  useEffect(() => {
+    if (isOnFromProps !== undefined) {
+      setIsOn(isOnFromProps);
+    }
+  }, []);
 
   const handleToggle = () => {
     setIsOn((prev) => !prev);

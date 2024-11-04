@@ -79,8 +79,15 @@ const Panel = ({
 const PricingPanelGroup: PricingPanelGroupComponent = ({
   children,
   onPanelChange: onPanelChangeFromProps,
+  activePanel,
 }) => {
   const [activeTab, setActiveTab] = useState<number | undefined>(undefined); // Track active tab index
+
+  React.useEffect(() => {
+    if (activePanel !== undefined) {
+      setActiveTab(activePanel);
+    }
+  }, [activePanel]);
 
   const onPanelChange = (index: number) => {
     if (index === activeTab) {
