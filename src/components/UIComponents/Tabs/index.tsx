@@ -36,7 +36,6 @@ const Tabs: TabsComponent = ({
 
   const onTabChange = (index: number) => {
     setActiveTab(index);
-    console.log("fawwad i am ", onTabChangeFromProps);
     if (onTabChangeFromProps) {
       onTabChangeFromProps(index);
     }

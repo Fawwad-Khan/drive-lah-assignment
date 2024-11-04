@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import PricingPanelGroup from "../../../components/UIComponents/PricingPanelGroup";
 import styles from "./SubscriptionForm.module.scss";
 import AddonPanelGroup from "../../../components/UIComponents/AddonPanelGroup";
@@ -9,31 +7,20 @@ import {
   subscriptionAddons,
   subscriptionPricePanels,
 } from "../../../constants";
+import { useSubscriptionForm } from "./useSubscriptionForm";
 
 type Props = {
   bindData: (data: () => unknown) => void;
 };
 
 const SubscriptionForm: React.FC<Props> = ({ bindData }) => {
-  const [subscriptionPlan, setSubscriptionPlan] = useState<number | undefined>(
-    undefined
-  );
-  const [activeAddOns, setActiveAddOns] = useState<number[]>([]);
-
-  const [cardDetails, setCardDetails] = useState({
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-  });
-
-  useEffect(() => {
-    bindData(() => ({ subscriptionPlan, activeAddOns, cardDetails }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subscriptionPlan, activeAddOns, cardDetails]);
-
-  const onPanelChange = (index?: number) => {
-    setSubscriptionPlan(index);
-  };
+  const {
+    subscriptionPlan,
+    activeAddOns,
+    onPanelChange,
+    setActiveAddOns,
+    setCardDetails,
+  } = useSubscriptionForm({ bindData });
 
   const renderAddOns = () => {
     if (subscriptionPlan !== undefined) {
