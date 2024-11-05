@@ -38,10 +38,16 @@ export const deviceFormSlice = createSlice({
       ...state,
       ...action.payload,
     }),
+    setDeviceType: (
+      state,
+      action: PayloadAction<{ index: number; type: string }>
+    ) => {
+      state.devices[action.payload.index].type = action.payload.type;
+    },
   },
 });
 
-export const { setDeviceFormState } = deviceFormSlice.actions;
+export const { setDeviceFormState, setDeviceType } = deviceFormSlice.actions;
 
 const persistedReducer = persistReducer(
   { key: name, storage: storage },

@@ -1,15 +1,7 @@
 import { lazy, useState } from "react";
-import { useAppSelector } from "../../redux";
+import store from "../../redux";
 
 export const useHome = () => {
-  const { deviceForm, subscriptionForm } = useAppSelector((state) => {
-    const { deviceForm, subscriptionForm } = state;
-    return {
-      deviceForm,
-      subscriptionForm,
-    };
-  });
-
   const [activeTab, setActiveTab] = useState<number>(8);
 
   const onNext = () => {
@@ -21,7 +13,7 @@ export const useHome = () => {
   };
 
   const onSubmit = () => {
-    console.log("Final Data", deviceForm, subscriptionForm);
+    console.log("Submit", store.getState());
   };
 
   const tabList: {
